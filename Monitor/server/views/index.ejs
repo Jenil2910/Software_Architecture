@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>System Monitor</title>
+	<script src="include/socket.io.js""></script>
+	<link rel="stylesheet" href="assets/form-mini.css">
+	<script>
+	var common = {VM: [0,0], B: [0,0]};
+	var socket = io.connect('http://localhost:2525');
+	socket.on('connect', function() {
+		console.log('Client connected.')
+	});
+	socket.on('status', function(data){
+		console.log(data);
+		common = JSON.parse(data);
+		if(common.VM[0]){
+			document.getElementById("vm1").className = "circle_green";
+		}else{
+			document.getElementById("vm1").className = "circle_red";
+		}
+		if(common.VM[1]){
+			document.getElementById("vm2").className = "circle_green";
+		}else{
+			document.getElementById("vm2").className = "circle_red";
+		}
+		if(common.B[0]){
+			document.getElementById("b1").className = "circle_yellow";
+		}else{
+			document.getElementById("b1").className = "circle_black";
+		}
+		if(common.B[1]){
+			document.getElementById("b2").className = "circle_yellow";
+		}else{
+			document.getElementById("b2").className = "circle_black";
+		}
+	});
+	</script>
+</head>
+
+    <div class="main-content">
+
+        <div class="form-mini-container">
+            <h1>System Monitor</h1>
+
+            <form class="form-mini" method="get" action="/">
+
+                <div class="form-row">
+                    <input type="number" name="first" placeholder="First Number">
+                </div>
+
+                <div class="form-row">
+                    <input type="number" name="second" placeholder="Second Number">
+                </div>
+
+                <% if (typeof answer !== 'undefined') { %>
+                    <div class="form-row">
+                        <h2>Sum is: <%= answer.sum %></h2>
+                    </div>
+                    <div class="form-row">
+                        <h2>Random Number is: <%= answer.random %></h2>
+                    </div>
+                <% } %>
+
+                <% if (typeof error !== 'undefined') { %>
+                    <div class="form-row">
+                        <h2>Error: <%= error %></h2>
+                    </div>
+                <% } %>
+
+                <div class="form-row form-last-row">
+                    <button type="submit">Calculate</button>
+                </div>
+
+            </form>
+	    <br><br>
+	    <% if (typeof common !== 'undefined') { %>
+		    <% if(!common.VM[0]) { %>
+		        <div class="circle_red" id="vm1"> VM1 </div>
+		    <% }else{ %>
+		        <div class="circle_green" id="vm1"> VM1 </div>
+		    <% } %>
+		    <% if(!common.B[0]) { %>
+		        <div class="circle_black" id="b1"> B1 </div>
+		    <% }else{ %>
+		        <div class="circle_yellow" id="b1"> B1 </div>
+		    <% } %>
+
+		    <% if(!common.VM[1]) { %>
+		        <div class="circle_red" id="vm2"> VM2 </div>
+		    <% }else{ %>
+		        <div class="circle_green" id="vm2"> VM2 </div>
+		    <% } %>
+		    <% if(!common.B[1]) { %>
+		        <div class="circle_black" id="b2"> B2 </div>
+		    <% }else{ %>
+		        <div class="circle_yellow" id="b2"> B2 </div>
+		    <% } %>
+            <% } %>
+        </div>
+
+
+    </div>
+
+</body>
+
+</html>
