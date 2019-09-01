@@ -11,9 +11,13 @@ var listener = io.listen(server);
 
 var bvm = [0, 0], bs = [0, 0];
 var hosts = ['1.2.3.100', '1.2.3.200'];
-var http_timeout = 1100;
-var request_timeout = 1100;
-var poll_freq = 900;
+//var http_timeout = 1100;
+//var request_timeout = 1100;
+//var poll_freq = 1200;
+
+var http_timeout = 100;
+var request_timeout = 100;
+var poll_freq = 200;
 
 function poll() {
 	console.log(`Polling`);
